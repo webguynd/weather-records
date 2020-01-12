@@ -24,6 +24,11 @@ def retrieve_weather_data():
 
     currentConditions = results['weather'][0]['main']
     currentTemp = results['main']['temp']
+    currentWind = results['wind']['speed']
+    currentPercip = results['rain']['1h']
+
+    INSERT_DATA = 'INSERT INTO weather VALUES(NULL, "{}", {}, {}, {})'.format(currentConditions, currentTemp,currentWind,currentPercip)
+
     if(TEMP_UNIT == "f"):
         currentTemp = (currentTemp - 273.15) * 9/5 +32
     elif(TEMP_UNIT == "c"):
@@ -38,7 +43,7 @@ def retrieve_weather_data():
         print("Error: ", error)
     finally:
         if(sqlCon):
-            cursor.execute("INSERT INTO weather VALUES(NULL, '{}', {})".format(currentConditions, currentTemp))
+            cursor.execute(INSERT_DATA)
             sqlCon.commit()
             cursor.close()
             sqlCon.close()
