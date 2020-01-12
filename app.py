@@ -36,6 +36,12 @@ def retrieve_weather_data():
     else:
         currentTemp = currentTemp
     
+    #DEBUG
+    print(currentConditions) 
+    print(currentTemp) 
+    print(currentWind) 
+    print(currentPercip)
+    
     try:
         sqlCon = sqlite3.connect(DB_PATH)
         cursor = sqlCon.cursor()
