@@ -27,8 +27,6 @@ def retrieve_weather_data():
     currentWind = results['wind']['speed']
     currentPercip = results['rain']['1h']
 
-    INSERT_DATA = 'INSERT INTO weather VALUES(NULL, "{}", {}, {}, {})'.format(currentConditions, currentTemp,currentWind,currentPercip)
-
     if(TEMP_UNIT == "f"):
         currentTemp = (currentTemp - 273.15) * 9/5 +32
     elif(TEMP_UNIT == "c"):
@@ -36,6 +34,8 @@ def retrieve_weather_data():
     else:
         currentTemp = currentTemp
     
+    INSERT_DATA = 'INSERT INTO weather VALUES(NULL, "{}", {}, {}, {})'.format(currentConditions, currentTemp,currentWind,currentPercip)
+
     try:
         sqlCon = sqlite3.connect(DB_PATH)
         cursor = sqlCon.cursor()
