@@ -13,7 +13,6 @@ See openweathermap.org
 CITY_CODE = 5804127
 TEMP_UNIT = "f" #Accepts 'f'(fahrenheit), 'c' celsius, or 'k' kelvin
 DB_PATH = "weather-records.db"
-UPDATE_DELAY = 60 #In minutes
 API_KEY = ""
 
 URL = "http://api.openweathermap.org/data/2.5/weather"
