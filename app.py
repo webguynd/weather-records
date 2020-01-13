@@ -1,5 +1,6 @@
 import requests
 import sqlite3
+import datetime
 
 """
 You will need to supply your own API key!
@@ -12,9 +13,9 @@ See openweathermap.org
 
 CITY_CODE = 5804127
 TEMP_UNIT = "f" #Accepts 'f'(fahrenheit), 'c' celsius, or 'k' kelvin
-DB_PATH = "weather-records.db"
+DB_PATH = "wr.db"
 API_KEY = ""
-
+DATE_FORMAT = "%m-%d-%y"
 URL = "http://api.openweathermap.org/data/2.5/weather"
 PARAMS = {"id" : CITY_CODE, "APPID" : API_KEY}
 
@@ -22,13 +23,19 @@ def retrieve_weather_data():
     request = requests.get(url = URL, params = PARAMS)
     results = request.json()
 
+
+    recordDate = datetime.datetime.now()
+    formattedDate = recordDate.strftime(DATE_FORMAT)
     currentConditions = results['weather'][0]['main']
     currentTemp = results['main']['temp']
     currentWind = results['wind']['speed']
     if('rain' in results):
         currentPercip = results['rain']['1h']
-    else:
+    elif('snow' in results):
         currentPercip = results['snow']['1h']
+    else:
+        currentPercip = 0
+    
 
     if(TEMP_UNIT == "f"):
         currentTemp = (currentTemp - 273.15) * 9/5 +32
@@ -37,7 +44,7 @@ def retrieve_weather_data():
     else:
         currentTemp = currentTemp
     
-    INSERT_DATA = 'INSERT INTO weather VALUES(NULL, "{}", {}, {}, {})'.format(currentConditions, currentTemp,currentWind,currentPercip)
+    INSERT_DATA = 'INSERT INTO weather VALUES(NULL, "{}", {}, {}, {}, "{}")'.format(currentConditions, currentTemp,currentWind,currentPercip,formattedDate)
 
     try:
         sqlCon = sqlite3.connect(DB_PATH)

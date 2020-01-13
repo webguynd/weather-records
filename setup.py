@@ -5,12 +5,13 @@ DB_TABLE_SETUP = '''CREATE TABLE weather (
     current_conditions TEXT NOT NULL,
     current_temperature integer NOT NULL,
     wind_speed integer NOT NULL,
-    rainfall_hour integer NOT NULL
+    rainfall_hour integer NOT NULL,
+    date string NOT NULL
 );'''
 
 def createDatabase():
     try:
-        sqlCon = sqlite3.connect("weather-records.db")
+        sqlCon = sqlite3.connect("wr.db")
         cursor = sqlCon.cursor()
     except sqlite3.Error as error:
         print("Error: ", error)
