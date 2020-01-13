@@ -25,7 +25,10 @@ def retrieve_weather_data():
     currentConditions = results['weather'][0]['main']
     currentTemp = results['main']['temp']
     currentWind = results['wind']['speed']
-    currentPercip = results['rain']['1h']
+    if('rain' in results):
+        currentPercip = results['rain']['1h']
+    else:
+        currentPercip = results['snow']['1h']
 
     if(TEMP_UNIT == "f"):
         currentTemp = (currentTemp - 273.15) * 9/5 +32
